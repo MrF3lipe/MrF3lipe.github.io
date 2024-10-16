@@ -3,10 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Página Web</title>
+    <title>Temporizador a Fecha Específica</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        #temporizador {
+            font-size: 2em;
+            padding: 20px;
+            background: #fff;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>¡Hola, mundo!</h1>
-    <p>Esta es mi tercera página web.</p>
+    <div id="temporizador">Cargando...</div>
+
+    <script>
+        // Establece la fecha y hora de destino (año, mes - 1, día, hora, minutos, segundos)
+        const fechaObjetivo = new Date(2024, 11-1, 6, 8, 0, 0);
+
+        const intervalo = setInterval(() => {
+            const ahora = new Date();
+            const tiempoRestante = Math.max(0, Math.floor((fechaObjetivo - ahora) / 1000));
+
+            const minutos = Math.floor(tiempoRestante / 60);
+            const segundos = tiempoRestante % 60;
+            const horas = Math.floor(minutos / 60);
+            const dias = Math.floor(horas / 24);
+
+            // Formato de tiempo
+            const tiempoFormateado = `${String(dias*24+(horas % 24)).padStart(2, '0')}h ${String(segundos).padStart(2, '0')}s`;
+            document.getElementById('temporizador').textContent = tiempoFormateado;
+
+            if (tiempoRestante <= 0) {
+                clearInterval(intervalo);
+                document.getElementById('temporizador').textContent = "¡Tiempo terminado!";
+            }
+        }, 1000);
+    </script>
 </body>
 </html>
